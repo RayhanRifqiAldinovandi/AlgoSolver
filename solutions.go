@@ -10,6 +10,7 @@ func main() {
 	var array = []int{3, 2, 4}
 	fmt.Println(twoSum(array, 6))
 	fmt.Println(reverse_integer(23))
+	fmt.Println(roman_to_integer("LVIII"))
 }
 
 func twoSum(array1 []int, target int) []int {
@@ -49,4 +50,20 @@ func reverse_integer(number int) bool {
 	} else {
 		return false
 	}
+}
+
+func roman_to_integer(romanNumber string) int {
+	//Map for the roman numerals
+	var romanMap = map[string]int{"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+	//Actual number
+	var total int = 0
+	for i := 0; i < len(romanNumber); i++ {
+		//if the next string doesnt pass the length of romanNumber and value of the romanNumber from the romanMap key is currently less than the next value
+		if i+1 < len(romanNumber) && romanMap[string(romanNumber[i])] < romanMap[string(romanNumber[i+1])] {
+			total -= romanMap[string(romanNumber[i])]
+		} else {
+			total += romanMap[string(romanNumber[i])]
+		}
+	}
+	return total
 }
