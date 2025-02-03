@@ -3,14 +3,16 @@ package main
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 func main() {
 
 	var array = []int{3, 2, 4}
 	fmt.Println(twoSum(array, 6))
-	fmt.Println(reverse_integer(23))
+	fmt.Println(reverse_integer_check(120))
 	fmt.Println(roman_to_integer("LVIII"))
+	fmt.Println(valid_word("234Adas"))
 }
 
 func twoSum(array1 []int, target int) []int {
@@ -27,7 +29,7 @@ func twoSum(array1 []int, target int) []int {
 	return []int{}
 }
 
-func reverse_integer(number int) bool {
+func reverse_integer_check(number int) bool {
 	var reverse_int int
 	//store the original number to be compared
 	var original_number int = number
@@ -48,6 +50,7 @@ func reverse_integer(number int) bool {
 	if reverse_int == original_number {
 		return true
 	} else {
+		fmt.Println(reverse_int)
 		return false
 	}
 }
@@ -66,4 +69,34 @@ func roman_to_integer(romanNumber string) int {
 		}
 	}
 	return total
+}
+
+func valid_word(word string) (bool,bool){
+	var vowel string = "aiueo"
+	vowel +=  strings.ToUpper(vowel)
+	var consonant string = "bcdfghjklmnpqrstvwxyz"
+	consonant += strings.ToUpper(consonant)
+	var numbers string = "012346789"
+	var allowed_string string = vowel + consonant + numbers 
+	//Status check
+	var status_vowel bool = false
+	var status_consonant bool = false
+
+	//check if strings is no longer than 3 character
+	if len(word) < 3{
+		return false,false
+	}
+
+	for i:=0; i < len(word); i++{
+		if strings.Contains(vowel,string(word[i])){
+			status_vowel = true
+		}
+		if strings.Contains(consonant,string(word[i])){
+			status_consonant = true
+		}
+		if !strings.Contains(allowed_string,string(word[i])){
+			return false,false
+		}
+	}
+	return status_vowel,status_consonant
 }
