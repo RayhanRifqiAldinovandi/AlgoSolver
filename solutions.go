@@ -6,6 +6,9 @@ import (
 	"strings"
 )
 
+
+
+
 func main() {
 
 	var array = []int{3, 2, 4}
@@ -13,10 +16,16 @@ func main() {
 	fmt.Println(reverse_integer_check(120))
 	fmt.Println(roman_to_integer("LVIII"))
 	fmt.Println(valid_word("234Adas"))
+
+	//Instantiate the Stack struct
+	fmt.Println(valid_parentheses("([])"))
+
+	
 }
 
 func twoSum(array1 []int, target int) []int {
 
+	//Create a map
 	var hashmap = make(map[int]int)
 	for i := 0; i < len(array1); i++ {
 		difference := target - array1[i]
@@ -99,4 +108,27 @@ func valid_word(word string) (bool,bool){
 		}
 	}
 	return status_vowel,status_consonant
+}
+
+
+
+
+func valid_parentheses(s string) bool{
+	var close_to_open = map[string]string{"}":"{","]":"[",")":"("}
+	stack := Stack{}
+	//iterate through the string
+	for i:=0; i < len(s);i++{
+		//jika substring adalah key didalam close_to_open map
+		if _, exist := close_to_open[string(s[i])]; exist{
+			if stack.Size() > 0 && stack.Top() == close_to_open[string(s[i])]{
+				stack.Pop()
+			}else{
+				return false
+			}
+		}else{
+			stack.Push(string(s[i]))
+		}
+	}
+	return true
+
 }
