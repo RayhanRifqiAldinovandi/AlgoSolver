@@ -6,21 +6,18 @@ import (
 	"strings"
 )
 
-
-
-
 func main() {
 
 	var array = []int{3, 2, 4}
+	var search = []int{-1, 0, 3, 5, 9, 12}
 	fmt.Println(twoSum(array, 6))
 	fmt.Println(reverse_integer_check(120))
 	fmt.Println(roman_to_integer("LVIII"))
 	fmt.Println(valid_word("234Adas"))
-
+	fmt.Println(binary_search(search, 3))
 	//Instantiate the Stack struct
 	fmt.Println(valid_parentheses("([])"))
 
-	
 }
 
 func twoSum(array1 []int, target int) []int {
@@ -80,55 +77,71 @@ func roman_to_integer(romanNumber string) int {
 	return total
 }
 
-func valid_word(word string) (bool,bool){
+func valid_word(word string) (bool, bool) {
 	var vowel string = "aiueo"
-	vowel +=  strings.ToUpper(vowel)
+	vowel += strings.ToUpper(vowel)
 	var consonant string = "bcdfghjklmnpqrstvwxyz"
 	consonant += strings.ToUpper(consonant)
 	var numbers string = "012346789"
-	var allowed_string string = vowel + consonant + numbers 
+	var allowed_string string = vowel + consonant + numbers
 	//Status check
 	var status_vowel bool = false
 	var status_consonant bool = false
 
 	//check if strings is no longer than 3 character
-	if len(word) < 3{
-		return false,false
+	if len(word) < 3 {
+		return false, false
 	}
 
-	for i:=0; i < len(word); i++{
-		if strings.Contains(vowel,string(word[i])){
+	for i := 0; i < len(word); i++ {
+		if strings.Contains(vowel, string(word[i])) {
 			status_vowel = true
 		}
-		if strings.Contains(consonant,string(word[i])){
+		if strings.Contains(consonant, string(word[i])) {
 			status_consonant = true
 		}
-		if !strings.Contains(allowed_string,string(word[i])){
-			return false,false
+		if !strings.Contains(allowed_string, string(word[i])) {
+			return false, false
 		}
 	}
-	return status_vowel,status_consonant
+	return status_vowel, status_consonant
 }
 
-
-
-
-func valid_parentheses(s string) bool{
-	var close_to_open = map[string]string{"}":"{","]":"[",")":"("}
+func valid_parentheses(s string) bool {
+	var close_to_open = map[string]string{"}": "{", "]": "[", ")": "("}
 	stack := Stack{}
 	//iterate through the string
-	for i:=0; i < len(s);i++{
+	for i := 0; i < len(s); i++ {
 		//jika substring adalah key didalam close_to_open map
-		if _, exist := close_to_open[string(s[i])]; exist{
-			if stack.Size() > 0 && stack.Top() == close_to_open[string(s[i])]{
+		if _, exist := close_to_open[string(s[i])]; exist {
+			if stack.Size() > 0 && stack.Top() == close_to_open[string(s[i])] {
 				stack.Pop()
-			}else{
+			} else {
 				return false
 			}
-		}else{
+		} else {
 			stack.Push(string(s[i]))
 		}
 	}
 	return true
 
+}
+
+func binary_search(nums []int, target int) int {
+	var min int = 0
+	var max int = len(nums) - 1
+	var mid int = 0
+	for i := 0; i < len(nums); i++ {
+		mid = (min + max) / 2
+		var current_element int = nums[mid]
+		if current_element > target {
+			max = mid - 1
+		} else if current_element < target {
+			min = mid + 1
+		} else {
+			return mid
+		}
+	}
+
+	return -1
 }
